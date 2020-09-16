@@ -1,9 +1,9 @@
 { pkgs ? import (import ./nix/sources.nix).nixpkgs {} }:
 
 rec {
-  dpar = pkgs.callPackage pkgs/dpar {
+  inherit (pkgs.callPackage pkgs/dpar {
     inherit libtensorflow;
-  };
+  }) dpar dpar-fifu-pmi;
 
   dpar_models = pkgs.callPackage pkgs/dpar_models {
     inherit dpar;
