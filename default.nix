@@ -5,6 +5,10 @@ rec {
     inherit libtensorflow;
   };
 
+  dpar_models = pkgs.callPackage pkgs/dpar_models {
+    inherit dpar;
+  };
+
   # Pin Tensorflow to our preferred version.
   libtensorflow = with pkgs; callPackage ./pkgs/libtensorflow {
     inherit (linuxPackages) nvidia_x11;
