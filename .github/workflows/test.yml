@@ -5,19 +5,9 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        channel:
-          - "https://nixos.org/channels/nixos-20.03"
     steps:
-    - uses: actions/checkout@v1
-    - uses: cachix/install-nix-action@v6
-    - run: nix-channel --add ${{ matrix.channel }} nixpkgs
-    - run: nix-channel --update
-    - run: cat /etc/nix/nix.conf
-    - uses: cachix/cachix-action@releases/v3
+    - uses: actions/checkout@v2
+    - uses: cachix/install-nix-action@v10
       with:
-        name: danieldk
-        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-        file: ci.nix
-        attributes: buildOutputs
+        skip_adding_nixpkgs_channel: true
+    - run: nix-build ci.nix -A buildOutputs
